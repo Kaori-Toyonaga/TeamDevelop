@@ -23,6 +23,12 @@ class AgendasController < ApplicationController
 
   def destroy
     @agenda.destroy
+    # binding.pry
+    @assign_users = Assign.where(team_id: params[:team_id])
+    @users = User.where(id: @assign_users.pluck(:user_id))
+    @users.each do |user|
+      AgendaMailer.agenda_mail(user).deliver
+    end
     redirect_to dashboard_url
   end
 
