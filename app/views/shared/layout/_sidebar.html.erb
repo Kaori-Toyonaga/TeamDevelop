@@ -33,6 +33,10 @@
             <a href="#" class="nav-link">
               <i class="fa fa-circle-o nav-icon"></i>
               <p>
+                <% if agenda.user_id == current_user.id %>
+                　<%= link_to '×', agenda_path(agenda.id), method: :delete %>
+                <% else %>
+                <% end %>
                 <%= agenda.title %>
                 <i class="right fa fa-angle-left"></i>
               </p>
