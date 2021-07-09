@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_team, only: %i[show edit update destroy change_owner]
+  before_action :set_team, only: %i[show edit update destroy]
 
   def index
     @teams = Team.all
@@ -51,6 +51,7 @@ class TeamsController < ApplicationController
     @team = Team.friendly.find(params[:format])
     @new_owner = User.find(params[:id])
     @team.update_attributes(owner_id: @new_owner.id)
+      TeamMailer.change_owner_mail(@new_owner).deliver
       redirect_to @team, notice: "オーナーを変更しました"
   end
 
